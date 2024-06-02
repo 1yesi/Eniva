@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Paquetes y Clientes - Servientrega</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    header, footer {
+        background-color: #d6a2e8;
+        color: white;
+        padding: 1rem 0;
+    }
+    footer {
+        background-color: #f7cac9;
+        color: black;
+    }
+    .container-custom {
+        background-color: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .btn-primary {
+        background-color: #d6a2e8;
+        border-color: #d6a2e8;
+    }
+    .btn-danger {
+        background-color: #f7cac9;
+        border-color: #f7cac9;
+    }
+    .btn-success {
+        background-color: #b8e994;
+        border-color: #b8e994;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Gestión de Paquetes y Clientes</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Paquetes</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Destino</th>
+                        <th>Contenido</th>
+                        <th>Cliente ID</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="paquete : ${paquetes}">
+                        <td th:text="${paquete.id}">1</td>
+                        <td th:text="${paquete.destino}">Destino</td>
+                        <td th:text="${paquete.contenido}">Contenido</td>
+                        <td th:text="${paquete.clienteId}">Cliente ID</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" th:onclick="'editarPaquete(' + ${paquete.id} + ')'">Editar</button>
+                            <button class="btn btn-danger btn-sm" th:onclick="'eliminarPaquete(' + ${paquete.id} + ')'">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-success btn-block" onclick="crearPaquete()">Crear Paquete</button>
+        </div>
+        <div class="col-md-6">
+            <h2>Clientes</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cliente : ${clientes}">
+                        <td th:text="${cliente.id}">1</td>
+                        <td th:text="${cliente.nombre}">Nombre</td>
+                        <td th:text="${cliente.direccion}">Dirección</td>
+                        <td th:text="${cliente.telefono}">Teléfono</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" th:onclick="'editarCliente(' + ${cliente.id} + ')'">Editar</button>
+                            <button class="btn btn-danger btn-sm" th:onclick="'eliminarCliente(' + ${cliente.id} + ')'">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-success btn-block" onclick="crearCliente()">Crear Cliente</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function crearPaquete() {
+    window.location.href = '/paquetes/form';
+}
+
+function editarPaquete(id) {
+    window.location.href = '/paquetes/form/' + id;
+}
+
+function eliminarPaquete(id) {
+    if (confirm('¿Estás seguro de que deseas eliminar este paquete?')) {
+        fetch('/paquetes/' + id, { method: 'DELETE' }).then(() => {
+            window.location.reload();
+        });
+    }
+}
+
+function crearCliente() {
+    window.location.href = '/clientes/form';
+}
+
+function editarCliente(id) {
+    window.location.href = '/clientes/form/' + id;
+}
+
+function eliminarCliente(id) {
+    if (confirm('¿Estás seguro de que deseas eliminar este cliente?')) {
+        fetch('/clientes/' + id, { method: 'DELETE' }).then(() => {
+            window.location.reload();
+        });
+    }
+}
+</script>
+</body>
+</html>
